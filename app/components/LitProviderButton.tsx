@@ -15,7 +15,7 @@ export enum ButtonScheme {
 	white = "white",
 }
 
-const Button: React.FC<ButtonProps> = ({
+const LitProviderButton: React.FC<ButtonProps> = ({
 	children,
 	scheme,
 	onClick,
@@ -61,7 +61,7 @@ const Button: React.FC<ButtonProps> = ({
 		setConnecting(false);
 	};
 
-	// Signs in with LitProtcol, only needed when used with the Uploader in Encrypted node
+	// Signs in with LitProtocol, only needed when used with the Uploader in Encrypted node
 	const signInLit = async () => {
 		const authSig = await checkAndSignAuthMessage({
 			chain: process.env.NEXT_PUBLIC_LIT_CHAIN || "polygon",
@@ -116,4 +116,4 @@ const Button: React.FC<ButtonProps> = ({
 	);
 }; // Button
 
-export default Button;
+export default LitProviderButton;

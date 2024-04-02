@@ -1,6 +1,6 @@
 "use client";
 
-import Button from "./Button";
+import LitProviderButton from "./LitProviderButton";
 import Spinner from "./Spinner";
 import { fundAndUpload } from "../utils/fundAndUpload";
 import { useState } from "react";
@@ -202,9 +202,9 @@ export const UDLUploader: React.FC = () => {
 					</div>
 				</div>
 				{message && <div className="text-red-500 mt-2" dangerouslySetInnerHTML={{ __html: message }} />}
-				<Button onClick={handleUpload} disabled={txProcessing}>
+				<LitProviderButton onClick={handleUpload} disabled={txProcessing}>
 					{txProcessing ? <Spinner color="text-background" /> : "Upload"}
-				</Button>
+				</LitProviderButton>
 			</div>
 		</div>
 	);

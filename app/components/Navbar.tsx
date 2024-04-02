@@ -88,7 +88,8 @@ const Navbar: FC = () => {
 				{ href: '/progress-bar-uploader', text: 'Progress Bar Uploader' },
 				{ href: '/gasless-uploader', text: 'Gasless Uploader' },
 				{ href: '/udl-uploader', text: 'UDL Uploader' },
-				{ href: '/encrypted-uploader', text: 'Encrypted Uploader' },
+				{ href: '/encrypted-uploader/lit', text: 'Encrypted Uploader (Lit Protocol)' },
+				{ href: '/encrypted-uploader/taco', text: 'Encrypted Uploader (TACo)' },
 			],
 		},
 		{

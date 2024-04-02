@@ -1,11 +1,30 @@
-import React, { FC } from "react";
-import Uploader from "../components/Uploader";
+import React from "react";
+import Uploader from "./Uploader";
 
-const Page: FC = () => {
+type EncryptedUploaderProps = {
+	encryptionProvider: "lit" | "taco";
+}
+
+const PROVIDER_DISPLAY_NAME = {
+	lit: "Lit Protocol",
+	taco: "TACo",
+};
+
+const PROVIDER_HOME_URL = {
+	lit: "https://litprotocol.com/",
+	taco: "https://docs.threshold.network/applications/threshold-access-control",
+};
+
+const PROVIDER_DOCS_URL= {
+	lit: "https://developer.litprotocol.com/v3/",
+	taco: "https://docs.threshold.network/app-development/threshold-access-control-tac",
+};
+
+const EncryptedUploader = ({encryptionProvider}: EncryptedUploaderProps) => {
 	return (
 		<div className="mx-auto py-10 bg-background text-text flex flex-col-reverse gap-10 md:flex-row justify-center items-start">
 			<div className="p-10 w-full md:w-1/3 md:p-0">
-				<Uploader showImageView={true} showReceiptView={true} encryptData={true} />
+				<Uploader showImageView={true} showReceiptView={true} encryptionProvider={encryptionProvider}/>
 			</div>
 
 			<div className="flex flex-col space-y-4 p-5 rounded-lg border">
@@ -17,10 +36,10 @@ const Page: FC = () => {
 							Encrypts a file using{" "}
 							<a
 								className="text-blue-500 hover:text-blue-700 underline"
-								href="https://litprotocol.com/"
+								href={PROVIDER_HOME_URL[encryptionProvider]}
 								target="_blank"
 							>
-								Lit Protocol
+								{PROVIDER_DISPLAY_NAME[encryptionProvider]}
 							</a>
 						</li>
 						<li>Uploads a file</li>
@@ -34,18 +53,18 @@ const Page: FC = () => {
 					<div className="flex flex-col gap-4 text-xs">
 						<div className="flex flex-col gap-2">
 							<p className="text-base text-neutral-700">Default:</p>
-							<code className="rounded bg-[#D8CFCA] px-2 py-1">{"<Uploader encryptData={true}/>"}</code>
+							<code className="rounded bg-[#D8CFCA] px-2 py-1">{`<Uploader encryptData={true} encryptionProvider="${encryptionProvider}"/>`}</code>
 						</div>
 						<div className="flex flex-col gap-2">
 							<p className="text-base text-neutral-700">To hide the image preview:</p>
 							<code className="rounded bg-[#D8CFCA] px-2 py-1">
-								{"<Uploader encryptData={true} showImageView={ false } />"}
+								{`<Uploader encryptData={true} showImageView={false} encryptionProvider="${encryptionProvider}"/>`}
 							</code>
 						</div>
 						<div className="flex flex-col gap-2">
 							<p className="text-base text-neutral-700">To hide the receipt preview:</p>
 							<code className="rounded bg-[#D8CFCA] px-2 py-1">
-								{"<Uploader encryptData={true} showReceiptView={ false } />"}
+								{`<Uploader encryptData={true} showReceiptView={false} encryptionProvider=\"${encryptionProvider}\"/>`}
 							</code>
 						</div>
 					</div>
@@ -74,10 +93,10 @@ const Page: FC = () => {
 						<li>
 							<a
 								className="text-blue-500 hover:text-blue-700 underline"
-								href="https://developer.litprotocol.com/v3/"
+								href={PROVIDER_DOCS_URL[encryptionProvider]}
 								target="_blank"
 							>
-								Lit Protocol docs
+								{PROVIDER_DISPLAY_NAME[encryptionProvider]} docs
 							</a>
 						</li>
 					</ul>
@@ -87,4 +106,4 @@ const Page: FC = () => {
 	);
 };
 
-export default Page;
+export default EncryptedUploader;

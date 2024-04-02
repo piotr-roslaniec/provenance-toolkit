@@ -2,7 +2,7 @@
 
 import { useRef, useState, useMemo } from "react";
 
-import Button from "./Button";
+import LitProviderButton from "./LitProviderButton";
 import Spinner from "./Spinner";
 import fileReaderStream from "filereader-stream";
 import getIrys from "../utils/getIrys";
@@ -49,6 +49,7 @@ export const ProgressBarUploader: React.FC<ProgressBarUploaderProps> = ({
 	};
 
 	const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+		console.log("[handleFileUpload]");
 		setMessage("");
 		setShouldShowFile(false);
 		setShouldShowReceipt(false);
@@ -60,6 +61,7 @@ export const ProgressBarUploader: React.FC<ProgressBarUploaderProps> = ({
 			setSelectedFile(event.target.files[0]);
 			setFileType(event.target.files[0].type);
 		}
+		console.log("[handleFileUpload] done");
 	};
 
 	const showReceipt = async () => {
@@ -229,9 +231,9 @@ export const ProgressBarUploader: React.FC<ProgressBarUploaderProps> = ({
 					</>
 				)}
 				{message && <div className="text-red-500" dangerouslySetInnerHTML={{ __html: message }} />}{" "}
-				<Button onClick={handleUpload} disabled={txProcessing}>
+				<LitProviderButton onClick={handleUpload} disabled={txProcessing}>
 					{txProcessing ? <Spinner color="text-background" /> : "Upload"}
-				</Button>
+				</LitProviderButton>
 			</div>
 		</div>
 	);

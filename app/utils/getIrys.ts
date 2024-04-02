@@ -1,9 +1,6 @@
 import { WebIrys } from "@irys/sdk";
 import { providers } from "ethers";
 
-import BigNumber from "bignumber.js";
-import getRpcUrl from "./getRpcUrl";
-
 interface WindowWithEthereum extends Window {
 	ethereum?: any;
 }

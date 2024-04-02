@@ -39,6 +39,7 @@ const UploadViewer: React.FC<UploadViewerProps> = ({ previewURL, checkEncrypted 
 		else setHasIrysEncrypted(false);
 	}, [previewURL]);
 
+	// TODO: Add encryption provider here
 	const doDecrypt = async () => {
 		setTxProcessing(true);
 		const result = await decryptFile(previewURL, encryptedFileType);

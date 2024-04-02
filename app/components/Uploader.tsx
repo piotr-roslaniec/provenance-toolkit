@@ -3,21 +3,20 @@
 import { AiOutlineFileSearch } from "react-icons/ai";
 import { PiReceiptLight } from "react-icons/pi";
 
-import Button from "./Button";
+import LitProviderButton from "./LitProviderButton";
 import ReceiptJSONView from "./ReceiptJSONView";
 import Spinner from "./Spinner";
 import UploadViewer from "./UploadViewer";
-import Switch from "react-switch";
-import fileReaderStream from "filereader-stream";
 import { fundAndUpload } from "../utils/fundAndUpload";
-import { encryptAndUploadFile } from "../utils/lit";
+import * as lit from "../utils/lit";
+import * as taco from "../utils/taco";
 
 import getIrys from "../utils/getIrys";
 import { useCallback } from "react";
 import { useEffect } from "react";
 import { useMemo } from "react";
-import { useRef } from "react";
 import { useState } from "react";
+import TacoProviderButton from "@/app/components/TacoProviderButton";
 
 // Define the Tag type
 type Tag = {
@@ -36,13 +35,13 @@ interface FileWrapper {
 interface UploaderConfigProps {
 	showImageView?: boolean;
 	showReceiptView?: boolean;
-	encryptData?: boolean;
+	encryptionProvider?: "lit" | "taco";
 }
 
 export const Uploader: React.FC<UploaderConfigProps> = ({
 	showImageView = true,
 	showReceiptView = true,
-	encryptData = false,
+	encryptionProvider,
 }) => {
 	const [files, setFiles] = useState<FileWrapper[]>([]);
 	const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -51,6 +50,8 @@ export const Uploader: React.FC<UploaderConfigProps> = ({
 	const [receiptQueryProcessing, setReceiptQueryProcessing] = useState<boolean>(false);
 	const [txProcessing, setTxProcessing] = useState(false);
 	const [message, setMessage] = useState<string>("");
+
+	const encryptData = !!encryptionProvider;
 
 	const GATEWAY_BASE = (process.env.NEXT_PUBLIC_GATEWAY || "https://gateway.irys.xyz/").endsWith("/")
 		? process.env.NEXT_PUBLIC_GATEWAY || "https://gateway.irys.xyz/"
@@ -93,12 +94,19 @@ export const Uploader: React.FC<UploaderConfigProps> = ({
 		}
 		setTxProcessing(true);
 
-		if (encryptData) {
-			const uploadedTx = await encryptAndUploadFile(files[0].file);
+		if (encryptionProvider) {
+			console.log('[handleUpload] encryptionProvider', encryptionProvider);
+			let uploadedTx = null;
+			if (encryptionProvider === "lit") {
+				uploadedTx = await lit.encryptAndUploadFile(files[0].file);
+			} else {
+				uploadedTx = await taco.encryptAndUploadFile(files[0].file);
+			}
 			files[0].id = uploadedTx;
 			files[0].isUploaded = true;
 			files[0].previewURL = uploadedTx;
 			setTxProcessing(false);
+			console.log('[handleUpload] done');
 			return;
 		}
 
@@ -161,7 +169,7 @@ export const Uploader: React.FC<UploaderConfigProps> = ({
 	// Display only the last selected file's preview.
 	const memoizedPreviewURL = useMemo(() => {
 		if (previewURL) {
-			return <UploadViewer previewURL={previewURL} checkEncrypted={encryptData} />;
+			return <UploadViewer previewURL={previewURL} checkEncrypted={!!encryptionProvider} />;
 		}
 		return null;
 	}, [previewURL]);
@@ -260,10 +268,17 @@ export const Uploader: React.FC<UploaderConfigProps> = ({
 							{memoizedPreviewURL}
 						</div>
 					)}
-
-					<Button onClick={handleUpload} disabled={txProcessing} requireLitAuth={encryptData}>
+					{ encryptionProvider === "lit" ? (
+					<LitProviderButton onClick={handleUpload} disabled={txProcessing}>
 						{txProcessing ? <Spinner color="text-background" /> : "Upload"}
-					</Button>
+					</LitProviderButton>
+						):(
+					<TacoProviderButton onClick={handleUpload} disabled={txProcessing}>
+						{txProcessing ? <Spinner color="text-background" /> : "Upload"}
+					</TacoProviderButton>
+						)
+				    }
+
 				</div>
 			</div>
 		</div>

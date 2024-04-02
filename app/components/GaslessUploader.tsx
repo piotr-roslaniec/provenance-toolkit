@@ -1,7 +1,7 @@
 "use client";
 
 import { AiOutlineFileSearch } from "react-icons/ai";
-import Button from "./Button";
+import LitProviderButton from "./LitProviderButton";
 import { PiReceiptLight } from "react-icons/pi";
 import ReceiptJSONView from "./ReceiptJSONView";
 import Spinner from "./Spinner";
@@ -228,9 +228,9 @@ export const GaslessUploader: React.FC<UploaderConfigProps> = ({ showImageView =
 						</div>
 					)}
 
-					<Button onClick={handleUpload} disabled={txProcessing} checkConnect={false}>
+					<LitProviderButton onClick={handleUpload} disabled={txProcessing} checkConnect={false}>
 						{txProcessing ? <Spinner color="text-background" /> : "Upload"}
-					</Button>
+					</LitProviderButton>
 				</div>
 			</div>
 		</div>

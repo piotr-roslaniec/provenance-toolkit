@@ -4,7 +4,7 @@ import { AiOutlineFileSearch } from "react-icons/ai";
 import { PiReceiptLight } from "react-icons/pi";
 import { PublicKey } from "@solana/web3.js";
 
-import Button from "./Button";
+import LitProviderButton from "./LitProviderButton";
 import ReceiptJSONView from "./ReceiptJSONView";
 import Spinner from "./Spinner";
 import UploadViewer from "./UploadViewer";
@@ -335,9 +335,9 @@ export const SolanaNFTMinter: React.FC = () => {
 						</div>
 					)}
 
-					<Button onClick={doMint} disabled={txProcessing} requireLitAuth={false}>
+					<LitProviderButton onClick={doMint} disabled={txProcessing} requireLitAuth={false}>
 						{txProcessing ? <Spinner color="text-background" /> : "Mint"}
-					</Button>
+					</LitProviderButton>
 				</div>
 			</div>
 		</div>

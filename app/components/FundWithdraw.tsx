@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-import Button from "./Button";
+import LitProviderButton from "./LitProviderButton";
 import Select, { SingleValue, ActionMeta } from "react-select";
 import Spinner from "./Spinner";
 import getIrys from "../utils/getIrys";
@@ -185,9 +185,9 @@ export const FundWithdraw: React.FC<FundWithdrawConfigProps> = ({
 				</div>
 			)}
 			{message && <div className="text-red-500">{message}</div>}
-			<Button onClick={handleFundWithdraw} disabled={txProcessing}>
+			<LitProviderButton onClick={handleFundWithdraw} disabled={txProcessing}>
 				{txProcessing ? <Spinner color="text-background" /> : isFunding ? "Fund Node" : "Withdraw From Node"}
-			</Button>
+			</LitProviderButton>
 		</div>
 	);
 };
